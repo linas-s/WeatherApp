@@ -13,10 +13,9 @@ interface WeatherApi {
     }
 
     @GET("geo/1.0/direct")
-    suspend fun searchLocation(
+    suspend fun getWeatherLocations(
         @Query("q") cityName: String,
         @Query("appid") apiKey: String = API_KEY,
         @Query("limit") limit: Int = 5
-
     ): List<LocationWeather>
 }

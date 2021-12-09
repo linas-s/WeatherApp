@@ -38,8 +38,7 @@ class LocationWeatherAdapter : ListAdapter<LocationWeather, LocationWeatherAdapt
 
     class LocationComparator : DiffUtil.ItemCallback<LocationWeather>(){
         override fun areItemsTheSame(oldItem: LocationWeather, newItem: LocationWeather) =
-            oldItem.lat == newItem.lat && oldItem.lon ==newItem.lon
-        //TODO(change to id later)
+            oldItem.lat == newItem.lat && oldItem.lon == newItem.lon
 
         override fun areContentsTheSame(oldItem: LocationWeather, newItem: LocationWeather) =
             oldItem == newItem

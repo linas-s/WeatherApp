@@ -5,6 +5,8 @@ import androidx.lifecycle.*
 import com.example.weatherapp.data.LocationWeather
 import com.example.weatherapp.data.WeatherRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -13,13 +15,17 @@ class SearchViewModel @Inject constructor(
     repository: WeatherRepository
 ) : ViewModel() {
 
-    private val weatherLocationsLiveData = MutableLiveData<List<LocationWeather>>()
-    val weatherLocations: LiveData<List<LocationWeather>> = weatherLocationsLiveData
+    private val currentQuery = MutableLiveData(DEFAULT_QUERY)
 
-    init {
-        viewModelScope.launch {
-            val weatherLocations = repository.getSearchResults("London")
-            weatherLocationsLiveData.value = weatherLocations
-        }
+    val weatherLocations = currentQuery.switchMap { queryString ->
+        repository.getWeatherLocations(queryString).asLiveData()
+    }
+
+    fun searchLocation(query: String){
+        currentQuery.value = query
+    }
+
+    companion object {
+        private const val DEFAULT_QUERY = ""
     }
 }
