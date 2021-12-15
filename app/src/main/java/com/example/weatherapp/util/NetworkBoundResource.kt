@@ -14,7 +14,9 @@ inline fun <ResultType, RequestType> networkBoundResource(
         emit(Resource.Loading(data))
 
         try {
-            saveFetchResult(fetch())
+            saveFetchResult(
+                fetch()
+            )
             query().map { Resource.Success(it) }
         } catch (throwable: Throwable){
             query().map { Resource.Error(throwable, it) }

@@ -9,13 +9,18 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.R
+import com.example.weatherapp.data.entities.Location
 import com.example.weatherapp.databinding.FragmentSearchBinding
 import com.example.weatherapp.util.Resource
+import com.example.weatherapp.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 
 @AndroidEntryPoint
-class SearchFragment : Fragment(R.layout.fragment_search) {
+class SearchFragment : Fragment(R.layout.fragment_search), LocationAdapter.OnItemClickListener {
 
     private val viewModel by viewModels<SearchViewModel>()
 
@@ -26,21 +31,35 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentSearchBinding.bind(view)
 
-        val adapter = LocationWeatherAdapter()
+        val adapter = LocationAdapter(this)
 
         binding.apply {
             recyclerView.adapter = adapter
-            viewModel.weatherLocations.observe(viewLifecycleOwner){ result ->
+            viewModel.locations.observe(viewLifecycleOwner){ result ->
                 adapter.submitList(result.data)
-
                 progressBar.isVisible = result is Resource.Loading && result.data.isNullOrEmpty()
                 textViewError.isVisible = result is Resource.Error && result.data.isNullOrEmpty()
                 textViewError.text = result.error?.localizedMessage
+            }
+        }
 
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.searchEvent.collect { event ->
+                when(event){
+                    is SearchViewModel.SearchEvent.AddLocationToFavorites -> TODO()
+                    is SearchViewModel.SearchEvent.NavigateToWeatherFragment -> {
+                        val action = SearchFragmentDirections.actionSearchFragmentToWeatherFragment(event.location)
+                        findNavController().navigate(action)
+                    }
+                }.exhaustive
             }
         }
 
         setHasOptionsMenu(true)
+    }
+
+    override fun onItemClick(location: Location) {
+        viewModel.onLocationSelected(location)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

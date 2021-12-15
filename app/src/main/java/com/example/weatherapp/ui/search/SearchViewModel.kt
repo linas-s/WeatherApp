@@ -1,31 +1,46 @@
 package com.example.weatherapp.ui.search
 
-import android.util.Log
 import androidx.lifecycle.*
-import com.example.weatherapp.data.LocationWeather
 import com.example.weatherapp.data.WeatherRepository
+import com.example.weatherapp.data.entities.Location
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    repository: WeatherRepository
+    private val repository: WeatherRepository
 ) : ViewModel() {
 
     private val currentQuery = MutableLiveData(DEFAULT_QUERY)
 
-    val weatherLocations = currentQuery.switchMap { queryString ->
-        repository.getWeatherLocations(queryString).asLiveData()
+    private val searchEventChannel = Channel<SearchEvent>()
+    val searchEvent = searchEventChannel.receiveAsFlow()
+
+    val locations = currentQuery.switchMap { queryString ->
+        repository.getLocations(queryString).asLiveData()
     }
 
     fun searchLocation(query: String){
         currentQuery.value = query
     }
 
+    fun onLocationSelected(location: Location) = viewModelScope.launch {
+        searchEventChannel.send(SearchEvent.NavigateToWeatherFragment(location))
+    }
+
+    fun onAddLocationToFavoritesClicked(location: Location) = viewModelScope.launch {
+
+    }
+
     companion object {
-        private const val DEFAULT_QUERY = ""
+        private const val DEFAULT_QUERY = "oiuadhasadfsdfsdfsdfiquw"
+    }
+
+    sealed class SearchEvent {
+        data class NavigateToWeatherFragment(val location: Location) : SearchEvent()
+        data class AddLocationToFavorites(val location: Location) : SearchEvent()
     }
 }

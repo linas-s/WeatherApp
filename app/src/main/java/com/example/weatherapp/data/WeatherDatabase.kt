@@ -2,10 +2,16 @@ package com.example.weatherapp.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.example.weatherapp.data.entities.*
 
 @Database(
     entities = [
-        LocationWeather::class],
+        Location::class,
+        CurrentWeather::class,
+        HourlyWeather::class,
+        DailyWeather::class,
+        Temp::class,
+        WeatherInfo::class],
     version = 1
 )
 abstract class WeatherDatabase : RoomDatabase() {
