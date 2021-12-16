@@ -2,16 +2,14 @@ package com.example.weatherapp.ui.weather
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.example.weatherapp.R
-import com.example.weatherapp.data.entities.relations.Weather
-import com.example.weatherapp.databinding.FragmentSearchBinding
 import com.example.weatherapp.databinding.FragmentWeatherBinding
-import com.example.weatherapp.ui.search.LocationAdapter
-import com.example.weatherapp.ui.search.SearchViewModel
+import com.example.weatherapp.util.Resource
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 @AndroidEntryPoint
 class WeatherFragment : Fragment(R.layout.fragment_weather) {
@@ -30,11 +28,56 @@ class WeatherFragment : Fragment(R.layout.fragment_weather) {
 
         binding.apply {
             recyclerView.adapter = adapter
-            viewModel.weather.observe(viewLifecycleOwner){ result ->
-                textViewLocation.text = result.data?.location?.name ?: ""
-                textViewCurrentTemp.text = result.data?.currentWeather?.temp.toString()
+            viewModel.weather.observe(viewLifecycleOwner) { result ->
+
+                if(!result.data?.hourlyWeather.isNullOrEmpty()){
+                    imageView.isVisible = true
+                    textViewCurrentTemp.isVisible = true
+                    textViewWeather.isVisible = true
+                    recyclerView.isVisible = true
+                    LinearLayout.isVisible = true
+                    textViewOc.isVisible = true
+                }
+
+                progressBar.isVisible = result is Resource.Loading && (result.data?.hourlyWeather.isNullOrEmpty())
+                textViewError.isVisible = result is Resource.Error && (result.data?.hourlyWeather.isNullOrEmpty())
+                buttonRetry.isVisible = result is Resource.Error && (result.data?.hourlyWeather.isNullOrEmpty())
+                textViewEmpty.isVisible = result is Resource.Success && (result.data?.hourlyWeather.isNullOrEmpty())
+                textViewError.text = result.error?.localizedMessage
+
+                Glide.with(imageView)
+                    .load(result.data?.currentWeather?.firstWeather?.url)
+                    .into(imageView)
+                textViewCurrentTemp.text = result.data?.currentWeather?.readableTemp
                 textViewWeather.text = result.data?.currentWeather?.firstWeather?.main ?: ""
-                //textViewCurrentTime.text = result.data?.currentWeather?.dt?.let { Date(it * 1000).toString() }
+
+                dailyWeatherToday.apply {
+                    with(result.data?.dailyWeather?.getOrNull(0)){
+                        Glide.with(imageViewHourly)
+                            .load(this?.firstWeather?.url)
+                            .into(imageViewHourly)
+                        textViewWeather.text = "Today · " + this?.firstWeather?.main
+                        textViewTemp.text = this?.temp?.readableDayTemp + " / " + this?.temp?.readableNightTemp
+                    }
+                }
+                dailyWeatherTomorrow.apply {
+                    with(result.data?.dailyWeather?.getOrNull(1)){
+                        Glide.with(imageViewHourly)
+                            .load(this?.firstWeather?.url)
+                            .into(imageViewHourly)
+                        textViewWeather.text = "Tomorrow · " + this?.firstWeather?.main
+                        textViewTemp.text = this?.temp?.readableDayTemp + " / " + this?.temp?.readableNightTemp
+                    }
+                }
+                dailyWeatherDayAfterTomorrow.apply {
+                    with(result.data?.dailyWeather?.getOrNull(2)){
+                        Glide.with(imageViewHourly)
+                            .load(this?.firstWeather?.url)
+                            .into(imageViewHourly)
+                        textViewWeather.text = viewModel.getDayOfWeek(this?.dt) + " · " + this?.firstWeather?.main
+                        textViewTemp.text = this?.temp?.readableDayTemp + " / " + this?.temp?.readableNightTemp
+                    }
+                }
 
                 adapter.submitList(result.data?.hourlyWeather)
             }

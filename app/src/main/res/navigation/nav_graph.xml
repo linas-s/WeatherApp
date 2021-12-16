@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.weatherapp.ui.search.SearchFragment"
-        android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
+        android:label="City"
+        tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_searchFragment_to_weatherFragment"
             app:destination="@id/weatherFragment" />
@@ -17,10 +17,13 @@
     <fragment
         android:id="@+id/weatherFragment"
         android:name="com.example.weatherapp.ui.weather.WeatherFragment"
-        android:label="fragment_weather"
-        tools:layout="@layout/fragment_weather" >
+        android:label="{locationName}"
+        tools:layout="@layout/fragment_weather">
         <argument
             android:name="location"
-            app:argType="com.example.weatherapp.data.entities.Location" />
+            app:argType="com.example.weatherapp.data.entities.WeatherLocation" />
+        <argument
+            android:name="locationName"
+            app:argType="string" />
     </fragment>
 </navigation>

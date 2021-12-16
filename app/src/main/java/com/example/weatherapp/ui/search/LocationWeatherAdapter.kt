@@ -5,10 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.weatherapp.data.entities.Location
+import com.example.weatherapp.data.entities.WeatherLocation
 import com.example.weatherapp.databinding.ItemLocationBinding
 
-class LocationAdapter(private val listener: OnItemClickListener) : ListAdapter<Location, LocationAdapter.LocationViewHolder>(LocationComparator()) {
+class LocationAdapter(private val listener: OnItemClickListener) : ListAdapter<WeatherLocation, LocationAdapter.LocationViewHolder>(LocationComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LocationViewHolder {
         val binding =
@@ -38,25 +38,25 @@ class LocationAdapter(private val listener: OnItemClickListener) : ListAdapter<L
             }
         }
 
-        fun bind(location: Location) {
+        fun bind(weatherLocation: WeatherLocation) {
             binding.apply {
-                textViewCity.text = location.name
+                textViewCity.text = weatherLocation.name
                 textViewStateCountry.text =
-                    if (location.state != null) location.state + ", " + location.country
-                    else location.country
+                    if (weatherLocation.state != null) weatherLocation.state + ", " + weatherLocation.country
+                    else weatherLocation.country
             }
         }
     }
 
     interface OnItemClickListener{
-        fun onItemClick(location: Location)
+        fun onItemClick(weatherLocation: WeatherLocation)
     }
 
-    class LocationComparator : DiffUtil.ItemCallback<Location>(){
-        override fun areItemsTheSame(oldItem: Location, newItem: Location) =
+    class LocationComparator : DiffUtil.ItemCallback<WeatherLocation>(){
+        override fun areItemsTheSame(oldItem: WeatherLocation, newItem: WeatherLocation) =
             oldItem.locationId == newItem.locationId
 
-        override fun areContentsTheSame(oldItem: Location, newItem: Location) =
+        override fun areContentsTheSame(oldItem: WeatherLocation, newItem: WeatherLocation) =
             oldItem == newItem
 
     }

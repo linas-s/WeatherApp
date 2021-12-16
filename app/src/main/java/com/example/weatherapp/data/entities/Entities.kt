@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Entity(tableName = "location", indices = [Index(value = ["lat", "lon"], unique = true)])
 @Parcelize
-data class Location(
+data class WeatherLocation(
     @PrimaryKey(autoGenerate = true) val locationId: Long,
     var lat: Double,
     var lon: Double,
@@ -22,11 +22,13 @@ data class CurrentWeather @JvmOverloads constructor(
     val dt: Long,
     val temp: Double,
     val feels_like: Double,
+    val wind_deg: Int,
     val wind_speed: Double,
-    @Ignore var date: java.util.Date? = null,
     @Ignore var weather: List<WeatherInfo>? = null,
     @Embedded var firstWeather : WeatherInfo?
-)
+){
+    val readableTemp: String get() = temp.toInt().toString()
+}
 
 @Entity(tableName = "hourly_weather")
 data class HourlyWeather @JvmOverloads constructor(
@@ -36,10 +38,13 @@ data class HourlyWeather @JvmOverloads constructor(
     val temp: Double,
     val feels_like: Double,
     val wind_speed: Double,
-    @Ignore var date: java.util.Date? = null,
+    val wind_deg: Int,
     @Ignore var weather: List<WeatherInfo>? = null,
     @Embedded var firstWeather : WeatherInfo?
-)
+){
+    val readableTemp: String get() = temp.toInt().toString() + "°"
+    val formattedWindSpeed: String get() = "%.1f".format(wind_speed) + " m/s"
+}
 
 @Entity(tableName = "daily_weather")
 data class DailyWeather @JvmOverloads constructor(
@@ -47,8 +52,8 @@ data class DailyWeather @JvmOverloads constructor(
     var locationId: Long,
     val dt: Long,
     val wind_speed: Double,
-    @Ignore var date: java.util.Date? = null,
-    //@Embedded val temp: Temp,
+    val wind_deg: Int,
+    @Embedded var temp: Temp?,
     @Ignore var weather: List<WeatherInfo>? = null,
     @Embedded var firstWeather : WeatherInfo?
 )
@@ -58,14 +63,19 @@ data class Temp(
     @PrimaryKey(autoGenerate = true) val tempId: Long,
     val day: Double,
     val night: Double
-)
+){
+    val readableDayTemp: String get() = day.toInt().toString() + "°"
+    val readableNightTemp: String get() = night.toInt().toString() + "°"
+}
 
 @Entity(tableName = "weather_info")
 data class WeatherInfo(
     @PrimaryKey val id: Long,
     val main: String,
     val icon: String
-)
+){
+    val url: String get() = "https://openweathermap.org/img/wn/$icon.png"
+}
 
 data class WeatherResponse(
     val lat: Double,

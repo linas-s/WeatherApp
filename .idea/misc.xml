@@ -4,10 +4,15 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Linas/Desktop/kotlin apps/WeatherApp/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.20833333333333334" />
+        <entry key="..\:/Users/Linas/Desktop/kotlin apps/WeatherApp/app/src/main/res/drawable/ic_east.xml" value="0.2635416666666667" />
+        <entry key="..\:/Users/Linas/Desktop/kotlin apps/WeatherApp/app/src/main/res/drawable/ic_north.xml" value="0.246875" />
         <entry key="..\:/Users/Linas/Desktop/kotlin apps/WeatherApp/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/Linas/Desktop/kotlin apps/WeatherApp/app/src/main/res/layout/daily_weather.xml" value="0.2989583333333333" />
+        <entry key="..\:/Users/Linas/Desktop/kotlin apps/WeatherApp/app/src/main/res/layout/daily_weather_view.xml" value="0.536" />
         <entry key="..\:/Users/Linas/Desktop/kotlin apps/WeatherApp/app/src/main/res/layout/fragment_search.xml" value="0.4" />
-        <entry key="..\:/Users/Linas/Desktop/kotlin apps/WeatherApp/app/src/main/res/layout/fragment_weather.xml" value="0.4" />
-        <entry key="..\:/Users/Linas/Desktop/kotlin apps/WeatherApp/app/src/main/res/layout/item_hourly.xml" value="0.72" />
+        <entry key="..\:/Users/Linas/Desktop/kotlin apps/WeatherApp/app/src/main/res/layout/fragment_weather.xml" value="0.264" />
+        <entry key="..\:/Users/Linas/Desktop/kotlin apps/WeatherApp/app/src/main/res/layout/hourly_weather.xml" value="0.28489583333333335" />
+        <entry key="..\:/Users/Linas/Desktop/kotlin apps/WeatherApp/app/src/main/res/layout/item_hourly.xml" value="0.536" />
         <entry key="..\:/Users/Linas/Desktop/kotlin apps/WeatherApp/app/src/main/res/layout/item_location.xml" value="0.4" />
         <entry key="..\:/Users/Linas/Desktop/kotlin apps/WeatherApp/app/src/main/res/menu/menu_search.xml" value="0.4" />
       </map>

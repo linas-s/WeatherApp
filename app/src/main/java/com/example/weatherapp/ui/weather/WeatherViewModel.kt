@@ -1,14 +1,10 @@
 package com.example.weatherapp.ui.weather
 
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.switchMap
+import androidx.lifecycle.*
 import com.example.weatherapp.data.WeatherRepository
-import com.example.weatherapp.data.entities.Location
+import com.example.weatherapp.data.entities.WeatherLocation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
 
 
@@ -17,10 +13,12 @@ class WeatherViewModel @Inject constructor(
     private val repository: WeatherRepository,
     state: SavedStateHandle
 ) : ViewModel() {
-    private val currentLocation = state.getLiveData<Location>("location")
+    private val currentLocation = state.getLiveData<WeatherLocation>("location")
 
     val weather = currentLocation.switchMap { location ->
         repository.getWeather(location).asLiveData()
     }
 
+    fun getDayOfWeek(timestamp: Long?): String? =
+        SimpleDateFormat("EEEE").format((timestamp ?: 0) * 1000)
 }

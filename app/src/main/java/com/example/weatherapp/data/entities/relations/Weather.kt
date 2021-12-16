@@ -5,10 +5,10 @@ import androidx.room.Relation
 import com.example.weatherapp.data.entities.CurrentWeather
 import com.example.weatherapp.data.entities.DailyWeather
 import com.example.weatherapp.data.entities.HourlyWeather
-import com.example.weatherapp.data.entities.Location
+import com.example.weatherapp.data.entities.WeatherLocation
 
 data class Weather(
-    @Embedded val location: Location?,
+    @Embedded val weatherLocation: WeatherLocation,
     @Relation(
         parentColumn = "locationId",
         entityColumn = "locationId"
@@ -18,10 +18,10 @@ data class Weather(
         parentColumn = "locationId",
         entityColumn = "locationId"
     )
-    val hourlyWeather: List<HourlyWeather?>,
+    val hourlyWeather: List<HourlyWeather>,
     @Relation(
         parentColumn = "locationId",
         entityColumn = "locationId"
     )
-    val dailyWeather: List<DailyWeather?>
+    val dailyWeather: List<DailyWeather>
 )

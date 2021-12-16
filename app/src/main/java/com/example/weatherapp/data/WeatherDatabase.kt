@@ -6,7 +6,7 @@ import com.example.weatherapp.data.entities.*
 
 @Database(
     entities = [
-        Location::class,
+        WeatherLocation::class,
         CurrentWeather::class,
         HourlyWeather::class,
         DailyWeather::class,

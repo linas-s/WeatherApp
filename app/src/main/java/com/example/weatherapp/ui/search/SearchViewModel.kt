@@ -2,7 +2,7 @@ package com.example.weatherapp.ui.search
 
 import androidx.lifecycle.*
 import com.example.weatherapp.data.WeatherRepository
-import com.example.weatherapp.data.entities.Location
+import com.example.weatherapp.data.entities.WeatherLocation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -27,20 +27,15 @@ class SearchViewModel @Inject constructor(
         currentQuery.value = query
     }
 
-    fun onLocationSelected(location: Location) = viewModelScope.launch {
-        searchEventChannel.send(SearchEvent.NavigateToWeatherFragment(location))
-    }
-
-    fun onAddLocationToFavoritesClicked(location: Location) = viewModelScope.launch {
-
+    fun onLocationSelected(weatherLocation: WeatherLocation) = viewModelScope.launch {
+        searchEventChannel.send(SearchEvent.NavigateToWeatherFragment(weatherLocation))
     }
 
     companion object {
-        private const val DEFAULT_QUERY = "oiuadhasadfsdfsdfsdfiquw"
+        private const val DEFAULT_QUERY = "London"
     }
 
     sealed class SearchEvent {
-        data class NavigateToWeatherFragment(val location: Location) : SearchEvent()
-        data class AddLocationToFavorites(val location: Location) : SearchEvent()
+        data class NavigateToWeatherFragment(val weatherLocation: WeatherLocation) : SearchEvent()
     }
 }
