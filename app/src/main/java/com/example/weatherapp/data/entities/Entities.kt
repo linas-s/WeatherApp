@@ -76,11 +76,3 @@ data class WeatherInfo(
 ){
     val url: String get() = "https://openweathermap.org/img/wn/$icon.png"
 }
-
-data class WeatherResponse(
-    val lat: Double,
-    val lon: Double,
-    val current: CurrentWeather,
-    val hourly: List<HourlyWeather>,
-    val daily: List<DailyWeather>
-)

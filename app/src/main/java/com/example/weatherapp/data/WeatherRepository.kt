@@ -4,8 +4,6 @@ import androidx.room.withTransaction
 import com.example.weatherapp.api.WeatherApi
 import com.example.weatherapp.data.entities.WeatherLocation
 import com.example.weatherapp.util.networkBoundResource
-import java.math.RoundingMode
-import java.text.DecimalFormat
 import javax.inject.Inject
 
 class WeatherRepository @Inject constructor(
