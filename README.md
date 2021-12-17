@@ -28,3 +28,4 @@ You will need an OpenWeatherMap API key. You need to put it in your local.proper
 ```
 API_KEY = "YOUR_API_KEY"
 ```
+You may need to Rebuild the project for it to work.
