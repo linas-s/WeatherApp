@@ -15,7 +15,7 @@ A single-activity architecture was used, using the Navigation Components to mana
 # Technologies used:
 
 • [Retrofit](https://square.github.io/retrofit/) - REST API Client <br />
-• [Dagger Hilt](https://dagger.dev/hilt/) - Dependency injection <br />
+• [Dagger Hilt](https://dagger.dev/hilt/) - dependency injection <br />
 • [LiveData](https://developer.android.com/topic/libraries/architecture/livedata) - handles data with lifecycle awareness <br />
 • [Coroutines, Flow](https://developer.android.com/kotlin/flow) - Thread management and data flow <br />
 • [Room](https://developer.android.com/topic/libraries/architecture/room) - data persistance and offline caching <br />
