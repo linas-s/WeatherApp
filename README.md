@@ -1,6 +1,8 @@
 # WeatherApp ⛅
 
-An Android weather forecast application, which was created using MVVM, Retrofit, Dagger Hilt, LiveData, Coroutines, Flow, Room, Navigation Components, Glide. The app fetches data from the [OpenWeatherMap API](https://openweathermap.org/api). <br />
+An Android weather forecast application, which was created using MVVM, Retrofit, Dagger Hilt, LiveData, Coroutines, Flow, Room, Navigation Components, Glide. The app fetches data from the [OpenWeatherMap API](https://openweathermap.org/api).<br />
+
+<img src="https://i.imgur.com/1YiA1QC.gif" width="328" height="583">
 
 # Architecture
 
