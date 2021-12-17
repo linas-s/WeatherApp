@@ -11,10 +11,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val repository: WeatherRepository
+    private val repository: WeatherRepository,
+    state: SavedStateHandle
 ) : ViewModel() {
 
-    private val currentQuery = MutableLiveData(DEFAULT_QUERY)
+    private val currentQuery = state.getLiveData(CURRENT_QUERY, DEFAULT_QUERY)
 
     private val searchEventChannel = Channel<SearchEvent>()
     val searchEvent = searchEventChannel.receiveAsFlow()
@@ -32,6 +33,7 @@ class SearchViewModel @Inject constructor(
     }
 
     companion object {
+        private const val CURRENT_QUERY = "currentQuery"
         private const val DEFAULT_QUERY = "London"
     }
 
