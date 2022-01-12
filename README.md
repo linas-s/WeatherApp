@@ -24,7 +24,7 @@ A single-activity architecture was used, using the Navigation Components to mana
 
 # Installation
 
-You will need an OpenWeatherMap API key. You need to put it in your local.properties file (create one if unavailable) and include the following line:
+You will need an OpenWeatherMap API key (befd4e9e671b15b8d0ef89554fae5966). You need to put it in your local.properties file (create one if unavailable) and include the following line:
 ```
 API_KEY = "YOUR_API_KEY"
 ```
